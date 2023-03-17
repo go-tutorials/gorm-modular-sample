@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm"
 	"reflect"
 
-	. "go-service/internal/usecase/user"
+	. "go-service/internal/user"
 )
 
 type ApplicationContext struct {
