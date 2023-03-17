@@ -17,7 +17,7 @@ go run main.go
   - Build SQL for paging by page index (page) and page size (limit)
   - Build SQL to count total of records
 
-#### validator at [core-go/service](https://github.com/core-go/service)
+#### validator at [core-go/service](https://github.com/core-go/core)
 - Check required, email, url, min, max, enum, regular expression
 - Check phone number with country code
 ### Search users: Support both GET and POST 
