@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"github.com/core-go/health"
+	hs "github.com/core-go/health/sql"
 	"github.com/core-go/log"
 	"github.com/core-go/search/query"
 	q "github.com/core-go/sql"
@@ -19,8 +20,8 @@ type ApplicationContext struct {
 	User   UserHandler
 }
 
-func NewApp(ctx context.Context, conf Config) (*ApplicationContext, error) {
-	ormDB, err := gorm.Open(g.Open(conf.Sql.DataSourceName), &gorm.Config{})
+func NewApp(ctx context.Context, cfg Config) (*ApplicationContext, error) {
+	ormDB, err := gorm.Open(g.Open(cfg.Sql.DataSourceName), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +42,7 @@ func NewApp(ctx context.Context, conf Config) (*ApplicationContext, error) {
 	userService := NewUserService(userRepository)
 	userHandler := NewUserHandler(userSearchBuilder.Search, userService, logError)
 
-	sqlChecker := q.NewHealthChecker(db)
+	sqlChecker := hs.NewHealthChecker(db)
 	healthHandler := health.NewHandler(sqlChecker)
 
 	return &ApplicationContext{

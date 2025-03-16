@@ -3,11 +3,12 @@ package user
 import (
 	"context"
 	"encoding/json"
+	"net/http"
+	"reflect"
+
 	"github.com/core-go/core"
 	"github.com/core-go/search"
 	"github.com/gorilla/mux"
-	"net/http"
-	"reflect"
 )
 
 type UserHandler interface {
@@ -20,7 +21,7 @@ type UserHandler interface {
 	Delete(w http.ResponseWriter, r *http.Request)
 }
 
-func NewUserHandler(find func(context.Context, interface{}, interface{}, int64, ...int64) (int64, string, error), service UserService, logError func(context.Context, string, ...map[string]interface{})) UserHandler {
+func NewUserHandler(find func(context.Context, interface{}, interface{}, int64, int64) (int64, error), service UserService, logError func(context.Context, string, ...map[string]interface{})) UserHandler {
 	filterType := reflect.TypeOf(UserFilter{})
 	modelType := reflect.TypeOf(User{})
 	searchHandler := search.NewSearchHandler(find, modelType, filterType, logError, nil)
